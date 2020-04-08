@@ -1,13 +1,930 @@
-Version: 1.0
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(data.table)
+library(gridExtra)
+library(grid)
+library(readxl)
+library(OutlierDetection)
+library(lattice)
+library(DMwR)
+library(agricolae)
+library(ggpubr)
+library(dunn.test)
+library(rcompanion)
+library(readxl)
+library(quantmod)
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+setwd("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/")
+listy <- list.files(path = "~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/", pattern = "*.xlsx",  
+                    full.names = FALSE)
 
-EnableCodeIndexing: Yes
-UseSpacesForTab: Yes
-NumSpacesForTab: 2
-Encoding: UTF-8
+ind <- 0
+for ( i in 1:length(listy)) {
+  ind <- ind +1
+  data <- lapply(listy[i], read_xlsx, sheet="Sheet1")
+  assign(x=listy[i],value = data)
+  #data <- data.frame(matrix(unlist(listy[i]), nrow=length(listy[i]), byrow=F))
+} 
 
-RnwWeave: Sweave
-LaTeX: pdfLaTeX
+boxplot(unlist(East.1.1.xlsx))
+######################## EAST DEC 21 ######################################
+East_1_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.1.1.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_1_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.1.2.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_1_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.1.3.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_1_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.1.4.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_2_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.2.1.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_2_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.2.2.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_2_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.2.3.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_2_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.2.4.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_3_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.3.1.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_3_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.3.2.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_3_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.3.3.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_3_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.3.4.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_4_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.4.1.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_4_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.4.2.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_4_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.4.3.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_4_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.4.4.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_5_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.5.1.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_5_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.5.2.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_5_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.5.3.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+East_5_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/East.5.4.xlsx", 
+                       sheet = "Sheet2", col_names = FALSE)
+
+East_1_1<- data.frame(East_1_1 = c(t(East_1_1)), stringsAsFactors=FALSE)
+East_1_2<- data.frame(East_1_2 = c(t(East_1_2)), stringsAsFactors=FALSE)
+East_1_3<- data.frame(East_1_3 = c(t(East_1_3)), stringsAsFactors=FALSE)
+East_1_4<- data.frame(East_1_4 = c(t(East_1_4)), stringsAsFactors=FALSE)
+East_2_1<- data.frame(East_2_1 = c(t(East_2_1)), stringsAsFactors=FALSE)
+East_2_2<- data.frame(East_2_2 = c(t(East_2_2)), stringsAsFactors=FALSE)
+East_2_3<- data.frame(East_2_3 = c(t(East_2_3)), stringsAsFactors=FALSE)
+East_2_4<- data.frame(East_2_4 = c(t(East_2_4)), stringsAsFactors=FALSE)
+East_3_1<- data.frame(East_3_1 = c(t(East_3_1)), stringsAsFactors=FALSE)
+East_3_2<- data.frame(East_3_2 = c(t(East_3_2)), stringsAsFactors=FALSE)
+East_3_3<- data.frame(East_3_3 = c(t(East_3_3)), stringsAsFactors=FALSE)
+East_3_4<- data.frame(East_3_4 = c(t(East_3_4)), stringsAsFactors=FALSE)
+East_4_1<- data.frame(East_4_1 = c(t(East_4_1)), stringsAsFactors=FALSE)
+East_4_2<- data.frame(East_4_2 = c(t(East_4_2)), stringsAsFactors=FALSE)
+East_4_3<- data.frame(East_4_3 = c(t(East_4_3)), stringsAsFactors=FALSE)
+East_4_4<- data.frame(East_4_4 = c(t(East_4_4)), stringsAsFactors=FALSE)
+East_5_1<- data.frame(East_5_1 = c(t(East_5_1)), stringsAsFactors=FALSE)
+East_5_2<- data.frame(East_5_2 = c(t(East_5_2)), stringsAsFactors=FALSE)
+East_5_3<- data.frame(East_5_3 = c(t(East_5_3)), stringsAsFactors=FALSE)
+East_5_4<- data.frame(East_5_4 = c(t(East_5_4)), stringsAsFactors=FALSE)
+
+dE<-cbind(East_1_1,East_1_2, East_1_3, East_1_4, East_2_1,East_2_2,East_2_3,East_2_4,East_3_1,
+          East_3_2,East_3_3,East_3_4,East_4_1,East_4_2,East_4_3,East_4_4,East_5_1, East_5_2,East_5_3,East_5_4 )
+
+boxplot(dE, outline = FALSE, ylim(-15,15), main="East side, Dec 21", ylab="Temperature (C)", xlab="Location")
+
+############## creat column ##########
+East_1_1$floor <- 1
+East_1_1$window <- 1
+East_1_1$side <- 'East'
+East_1_1$day <- 'Dec 21'
+names(East_1_1)[1] <-'Value' 
+
+East_1_2$floor <- 1
+East_1_2$window <- 2
+East_1_2$side <- 'East'
+East_1_2$day <- 'Dec 21'
+names(East_1_2)[1] <-'Value' 
+
+East_1_3$floor <- 1
+East_1_3$window <- 3
+East_1_3$side <- 'East'
+East_1_3$day <- 'Dec 21'
+names(East_1_3)[1] <-'Value' 
+
+East_1_4$floor <- 1
+East_1_4$window <- 4
+East_1_4$side <- 'East'
+East_1_4$day <- 'Dec 21'
+names(East_1_4)[1] <-'Value' 
+
+East_2_1$floor <- 2
+East_2_1$window <- 1
+East_2_1$side <- 'East'
+East_2_1$day <- 'Dec 21'
+names(East_2_1)[1] <-'Value' 
+
+East_2_2$floor <- 2
+East_2_2$window <- 2
+East_2_2$side <- 'East'
+East_2_2$day <- 'Dec 21'
+names(East_2_2)[1] <-'Value' 
+
+East_2_3$floor <- 2
+East_2_3$window <- 3
+East_2_3$side <- 'East'
+East_2_3$day <- 'Dec 21'
+names(East_2_3)[1] <-'Value' 
+
+East_2_4$floor <- 2
+East_2_4$window <- 4
+East_2_4$side <- 'East'
+East_2_4$day <- 'Dec 21'
+names(East_2_4)[1] <-'Value' 
+
+East_3_1$floor <- 3
+East_3_1$window <- 1
+East_3_1$side <- 'East'
+East_3_1$day <- 'Dec 21'
+names(East_3_1)[1] <-'Value' 
+
+East_3_2$floor <- 3
+East_3_2$window <- 2
+East_3_2$side <- 'East'
+East_3_2$day <- 'Dec 21'
+names(East_3_2)[1] <-'Value' 
+
+East_3_3$floor <- 3
+East_3_3$window <- 3
+East_3_3$side <- 'East'
+East_3_3$day <- 'Dec 21'
+names(East_3_3)[1] <-'Value' 
+
+East_3_4$floor <- 3
+East_3_4$window <- 4
+East_3_4$side <- 'East'
+East_3_4$day <- 'Dec 21'
+names(East_3_4)[1] <-'Value' 
+
+East_4_1$floor <- 4
+East_4_1$window <- 1
+East_4_1$side <- 'East'
+East_4_1$day <- 'Dec 21'
+names(East_4_1)[1] <-'Value' 
+
+East_4_2$floor <- 4
+East_4_2$window <- 2
+East_4_2$side <- 'East'
+East_4_2$day <- 'Dec 21'
+names(East_4_2)[1] <-'Value' 
+
+East_4_3$floor <- 4
+East_4_3$window <- 3
+East_4_3$side <- 'East'
+East_4_3$day <- 'Dec 21'
+names(East_4_3)[1] <-'Value' 
+
+East_4_4$floor <- 4
+East_4_4$window <- 4
+East_4_4$side <- 'East'
+East_4_4$day <- 'Dec 21'
+names(East_4_4)[1] <-'Value' 
+
+East_5_1$floor <- 5
+East_5_1$window <- 1
+East_5_1$side <- 'East'
+East_5_1$day <- 'Dec 21'
+names(East_5_1)[1] <-'Value' 
+
+East_5_2$floor <- 5
+East_5_2$window <- 2
+East_5_2$side <- 'East'
+East_5_2$day <- 'Dec 21'
+names(East_5_2)[1] <-'Value' 
+
+East_5_3$floor <- 5
+East_5_3$window <- 3
+East_5_3$side <- 'East'
+East_5_3$day <- 'Dec 21'
+names(East_5_3)[1] <-'Value' 
+
+East_5_4$floor <- 5
+East_5_4$window <- 4
+East_5_4$side <- 'East'
+East_5_4$day <- 'Dec 21'
+names(East_5_4)[1] <-'Value' 
+
+dfE1<- rbind.data.frame(East_1_1,East_1_2,East_1_3, East_1_4)
+dfE2<- rbind.data.frame(East_2_1,East_2_2,East_2_3, East_2_4)
+dfE3<- rbind.data.frame(East_3_1,East_3_2,East_3_3, East_3_4)
+dfE4<- rbind.data.frame(East_4_1,East_4_2,East_4_3, East_4_4)
+dfE5<- rbind.data.frame(East_5_1,East_5_2,East_5_3, East_5_4)
+dfE_all <- rbind.data.frame(dfE1, dfE2, dfE3, dfE4, dfE5)
+
+ggplot()+ geom_boxplot(data=dfE_all, aes(window, Value, group=window))+ facet_grid(~floor)+
+  ylab("Temperature (C)")+ggtitle("East side Floor")
+
+
+#################### NORTH Dec 21 #########################
+North_1_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.1.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_1_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.1.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_1_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.1.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_1_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.1.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_2_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.2.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_2_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.2.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_2_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.2.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_2_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.2.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_3_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.3.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_3_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.3.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_3_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.3.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_3_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.3.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_4_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.4.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_4_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.4.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_4_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.4.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_4_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.4.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_4_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.4.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_5_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.5.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_5_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.5.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_5_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.5.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_5_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.5.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+North_5_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/North.5.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+
+North_1_1<- data.frame(North_1_1 = c(t(North_1_1)), stringsAsFactors=FALSE)
+North_1_2<- data.frame(North_1_2 = c(t(North_1_2)), stringsAsFactors=FALSE)
+North_1_3<- data.frame(North_1_3 = c(t(North_1_3)), stringsAsFactors=FALSE)
+North_1_4<- data.frame(North_1_4 = c(t(North_1_4)), stringsAsFactors=FALSE)
+North_2_1<- data.frame(North_2_1 = c(t(North_2_1)), stringsAsFactors=FALSE)
+North_2_2<- data.frame(North_2_2 = c(t(North_2_2)), stringsAsFactors=FALSE)
+North_2_3<- data.frame(North_2_3 = c(t(North_2_3)), stringsAsFactors=FALSE)
+North_2_4<- data.frame(North_2_4 = c(t(North_2_4)), stringsAsFactors=FALSE)
+North_3_1<- data.frame(North_3_1 = c(t(North_3_1)), stringsAsFactors=FALSE)
+North_3_2<- data.frame(North_3_2 = c(t(North_3_2)), stringsAsFactors=FALSE)
+North_3_3<- data.frame(North_3_3 = c(t(North_3_3)), stringsAsFactors=FALSE)
+North_3_4<- data.frame(North_3_4 = c(t(North_3_4)), stringsAsFactors=FALSE)
+North_4_1<- data.frame(North_4_1 = c(t(North_4_1)), stringsAsFactors=FALSE)
+North_4_2<- data.frame(North_4_2 = c(t(North_4_2)), stringsAsFactors=FALSE)
+North_4_3<- data.frame(North_4_3 = c(t(North_4_3)), stringsAsFactors=FALSE)
+North_4_4<- data.frame(North_4_4 = c(t(North_4_4)), stringsAsFactors=FALSE)
+North_4_5<- data.frame(North_4_5 = c(t(North_4_5)), stringsAsFactors=FALSE)
+North_5_1<- data.frame(North_5_1 = c(t(North_5_1)), stringsAsFactors=FALSE)
+North_5_2<- data.frame(North_5_2 = c(t(North_5_2)), stringsAsFactors=FALSE)
+North_5_3<- data.frame(North_5_3 = c(t(North_5_3)), stringsAsFactors=FALSE)
+North_5_4<- data.frame(North_5_4 = c(t(North_5_4)), stringsAsFactors=FALSE)
+North_5_5<- data.frame(North_5_5 = c(t(North_5_5)), stringsAsFactors=FALSE)
+
+
+dN<-cbind(North_1_1,North_1_2, North_1_3, North_1_4, North_2_1,North_2_2,North_2_3,North_2_4,North_3_1,
+          North_3_2,North_3_3,North_3_4,North_4_1,North_4_2,North_4_3,North_4_4,North_4_5,
+          North_5_1, North_5_2,North_5_3,North_5_4,North_5_5 )
+
+
+dN1<-cbind(North1, North2)
+
+NN<- boxplot(dN, outline = FALSE, main="North side, Dec 21", xlab="Location", ylab="Temperature (C)")
+
+#########column ##############
+North_1_1$floor <- 1
+North_1_1$window <- 1
+North_1_1$side <- 'North'
+North_1_1$day <- 'Dec 21'
+names(North_1_1)[1] <-'Value' 
+
+North_1_2$floor <- 1
+North_1_2$window <- 2
+North_1_2$side <- 'North'
+North_1_2$day <- 'Dec 21'
+names(North_1_2)[1] <-'Value' 
+
+North_1_3$floor <- 1
+North_1_3$window <- 3
+North_1_3$side <- 'North'
+North_1_3$day <- 'Dec 21'
+names(North_1_3)[1] <-'Value' 
+
+North_1_4$floor <- 1
+North_1_4$window <- 4
+North_1_4$side <- 'North'
+North_1_4$day <- 'Dec 21'
+names(North_1_4)[1] <-'Value' 
+
+North_2_1$floor <- 2
+North_2_1$window <- 1
+North_2_1$side <- 'North'
+North_2_1$day <- 'Dec 21'
+names(North_2_1)[1] <-'Value' 
+
+North_2_2$floor <- 2
+North_2_2$window <- 2
+North_2_2$side <- 'North'
+North_2_2$day <- 'Dec 21'
+names(North_2_2)[1] <-'Value' 
+
+North_2_3$floor <- 2
+North_2_3$window <- 3
+North_2_3$side <- 'North'
+North_2_3$day <- 'Dec 21'
+names(North_2_3)[1] <-'Value' 
+
+North_2_4$floor <- 2
+North_2_4$window <- 4
+North_2_4$side <- 'North'
+North_2_4$day <- 'Dec 21'
+names(North_2_4)[1] <-'Value' 
+
+North_3_1$floor <- 3
+North_3_1$window <- 1
+North_3_1$side <- 'North'
+North_3_1$day <- 'Dec 21'
+names(North_3_1)[1] <-'Value' 
+
+North_3_2$floor <- 3
+North_3_2$window <- 2
+North_3_2$side <- 'North'
+North_3_2$day <- 'Dec 21'
+names(North_3_2)[1] <-'Value' 
+
+North_3_3$floor <- 3
+North_3_3$window <- 3
+North_3_3$side <- 'North'
+North_3_3$day <- 'Dec 21'
+names(North_3_3)[1] <-'Value' 
+
+North_3_4$floor <- 3
+North_3_4$window <- 4
+North_3_4$side <- 'North'
+North_3_4$day <- 'Dec 21'
+names(North_3_4)[1] <-'Value' 
+
+North_4_1$floor <- 4
+North_4_1$window <- 1
+North_4_1$side <- 'North'
+North_4_1$day <- 'Dec 21'
+names(North_4_1)[1] <-'Value' 
+
+North_4_2$floor <- 4
+North_4_2$window <- 2
+North_4_2$side <- 'North'
+North_4_2$day <- 'Dec 21'
+names(North_4_2)[1] <-'Value' 
+
+North_4_3$floor <- 4
+North_4_3$window <- 3
+North_4_3$side <- 'North'
+North_4_3$day <- 'Dec 21'
+names(North_4_3)[1] <-'Value' 
+
+North_4_4$floor <- 4
+North_4_4$window <- 4
+North_4_4$side <- 'North'
+North_4_4$day <- 'Dec 21'
+names(North_4_4)[1] <-'Value' 
+
+North_4_5$floor <- 4
+North_4_5$window <- 5
+North_4_5$side <- 'North'
+North_4_5$day <- 'Dec 21'
+names(North_4_5)[1] <-'Value'
+
+North_5_1$floor <- 5
+North_5_1$window <- 1
+North_5_1$side <- 'North'
+North_5_1$day <- 'Dec 21'
+names(North_5_1)[1] <-'Value' 
+
+North_5_2$floor <- 5
+North_5_2$window <- 2
+North_5_2$side <- 'North'
+North_5_2$day <- 'Dec 21'
+names(North_5_2)[1] <-'Value' 
+
+North_5_3$floor <- 5
+North_5_3$window <- 3
+North_5_3$side <- 'North'
+North_5_3$day <- 'Dec 21'
+names(North_5_3)[1] <-'Value' 
+
+North_5_4$floor <- 5
+North_5_4$window <- 4
+North_5_4$side <- 'North'
+North_5_4$day <- 'Dec 21'
+names(North_5_4)[1] <-'Value' 
+
+North_5_5$floor <- 5
+North_5_5$window <- 5
+North_5_5$side <- 'North'
+North_5_5$day <- 'Dec 21'
+names(North_5_5)[1] <-'Value' 
+
+dfN1<- rbind.data.frame(North_1_1,North_1_2,North_1_3, North_1_4)
+dfN2<- rbind.data.frame(North_2_1,North_2_2,North_2_3, North_2_4)
+dfN3<- rbind.data.frame(North_3_1,North_3_2,North_3_3, North_3_4)
+dfN4<- rbind.data.frame(North_4_1,North_4_2,North_4_3, North_4_4)
+dfN5<- rbind.data.frame(North_5_1,North_5_2,North_5_3, North_5_4)
+dfN_all <- rbind.data.frame(dfN1, dfN2, dfN3, dfN4, dfN5)
+
+ggplot()+ geom_boxplot(data=dfN_all, aes(window, Value, group=window))+ facet_grid(~floor)+
+  ylab("Temperature (C)")+ggtitle("North side Floor")
+
+######################## WEST Dec 21 ##############################
+West_1_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.1.1.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+
+West_1_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.1.4.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_2_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.2.1.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+
+West_2_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.2.4.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_3_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.3.1.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+
+West_3_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.3.4.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_4_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.4.1.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_4_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.4.2.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_4_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.4.3.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_4_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.4.4.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_5_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.5.1.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_5_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.5.2.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_5_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.5.3.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+West_5_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/West.5.4.xlsx", 
+                       sheet = "Sheet1", col_names = FALSE)
+
+West_1_1<- data.frame(West_1_1 = c(t(West_1_1)), stringsAsFactors=FALSE)
+
+West_1_4<- data.frame(West_1_4 = c(t(West_1_4)), stringsAsFactors=FALSE)
+West_2_1<- data.frame(West_2_1 = c(t(West_2_1)), stringsAsFactors=FALSE)
+
+West_2_4<- data.frame(West_2_4 = c(t(West_2_4)), stringsAsFactors=FALSE)
+
+West_3_1<- data.frame(West_3_1 = c(t(West_3_1)), stringsAsFactors=FALSE)
+West_3_4<- data.frame(West_3_4 = c(t(West_3_4)), stringsAsFactors=FALSE)
+West_4_1<- data.frame(West_4_1 = c(t(West_4_1)), stringsAsFactors=FALSE)
+West_4_2<- data.frame(West_4_2 = c(t(West_4_2)), stringsAsFactors=FALSE)
+West_4_3<- data.frame(West_4_3 = c(t(West_4_3)), stringsAsFactors=FALSE)
+West_4_4<- data.frame(West_4_4 = c(t(West_4_4)), stringsAsFactors=FALSE)
+West_5_1<- data.frame(West_5_1 = c(t(West_5_1)), stringsAsFactors=FALSE)
+West_5_2<- data.frame(West_5_2 = c(t(West_5_2)), stringsAsFactors=FALSE)
+West_5_3<- data.frame(West_5_3 = c(t(West_5_3)), stringsAsFactors=FALSE)
+West_5_4<- data.frame(West_5_4 = c(t(West_5_4)), stringsAsFactors=FALSE)
+
+dW<-cbind(West_1_1, West_1_4, West_2_1,West_2_4,West_3_1,
+          West_3_4,West_4_1,West_4_2,West_4_3,West_4_4,West_5_1, West_5_2,West_5_3,West_5_4 )
+
+NW<- boxplot(dW, outline = FALSE, main="West side, Dec 21", xlab="Location", ylab="Temperature (C)")
+
+West_1_1$floor <- 1
+West_1_1$window <- 1
+West_1_1$side <- 'West'
+West_1_1$day <- 'Dec 21'
+names(West_1_1)[1] <-'Value' 
+
+West_1_4$floor <- 1
+West_1_4$window <- 4
+West_1_4$side <- 'West'
+West_1_4$day <- 'Dec 21'
+names(West_1_4)[1] <-'Value' 
+
+West_2_1$floor <- 2
+West_2_1$window <- 1
+West_2_1$side <- 'West'
+West_2_1$day <- 'Dec 21'
+names(West_2_1)[1] <-'Value' 
+
+West_2_4$floor <- 2
+West_2_4$window <- 4
+West_2_4$side <- 'West'
+West_2_4$day <- 'Dec 21'
+names(West_2_4)[1] <-'Value' 
+
+West_3_1$floor <- 3
+West_3_1$window <- 1
+West_3_1$side <- 'West'
+West_3_1$day <- 'Dec 21'
+names(West_3_1)[1] <-'Value' 
+
+West_3_4$floor <- 3
+West_3_4$window <- 4
+West_3_4$side <- 'West'
+West_3_4$day <- 'Dec 21'
+names(West_3_4)[1] <-'Value' 
+
+West_4_1$floor <- 4
+West_4_1$window <- 1
+West_4_1$side <- 'West'
+West_4_1$day <- 'Dec 21'
+names(West_4_1)[1] <-'Value' 
+
+West_4_2$floor <- 4
+West_4_2$window <- 2
+West_4_2$side <- 'West'
+West_4_2$day <- 'Dec 21'
+names(West_4_2)[1] <-'Value' 
+
+West_4_3$floor <- 4
+West_4_3$window <- 3
+West_4_3$side <- 'West'
+West_4_3$day <- 'Dec 21'
+names(West_4_3)[1] <-'Value' 
+
+West_4_4$floor <- 4
+West_4_4$window <- 4
+West_4_4$side <- 'West'
+West_4_4$day <- 'Dec 21'
+names(West_4_4)[1] <-'Value' 
+
+West_5_1$floor <- 5
+West_5_1$window <- 1
+West_5_1$side <- 'West'
+West_5_1$day <- 'Dec 21'
+names(West_5_1)[1] <-'Value' 
+
+West_5_2$floor <- 5
+West_5_2$window <- 2
+West_5_2$side <- 'West'
+West_5_2$day <- 'Dec 21'
+names(West_5_2)[1] <-'Value' 
+
+West_5_3$floor <- 5
+West_5_3$window <- 3
+West_5_3$side <- 'West'
+West_5_3$day <- 'Dec 21'
+names(West_5_3)[1] <-'Value' 
+
+West_5_4$floor <- 5
+West_5_4$window <- 4
+West_5_4$side <- 'West'
+West_5_4$day <- 'Dec 21'
+names(West_5_4)[1] <-'Value' 
+
+dfW1<- rbind.data.frame(West_1_1,West_1_4)
+dfW2<- rbind.data.frame(West_2_1, West_2_4)
+dfW3<- rbind.data.frame(West_3_1, West_3_4)
+dfW4<- rbind.data.frame(West_4_1,West_4_2,West_4_3, West_4_4)
+dfW5<- rbind.data.frame(West_5_1,West_5_2,West_5_3, West_5_4)
+dfW_all <- rbind.data.frame(dfW1, dfW2, dfW3, dfW4, dfW5)
+
+ggplot()+ geom_boxplot(data=dfW_all, aes(window, Value, group=window))+ facet_grid(~floor)+
+  ylab("Temperature (C)")+ggtitle("West side Floor")
+###################### SOUTH Dec 21 ############################
+South_1_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.1.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_1_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.1.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_1_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.1.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_1_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.1.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_1_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.1.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_1_6 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.1.6.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+
+
+South_2_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.2.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_2_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.2.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_2_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.2.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_2_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.2.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_2_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.2.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_2_6 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.2.6.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+
+South_3_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.3.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_3_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.3.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_3_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.3.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_3_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.3.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_3_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.3.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_3_6 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.3.6.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+
+
+South_4_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.4.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_4_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.4.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_4_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.4.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_4_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.4.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_4_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.4.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_4_6 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.4.6.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+
+
+South_5_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.5.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_5_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.5.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_5_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.5.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_5_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.5.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_5_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.5.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_5_6 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.5.6.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+
+South_6_1 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.6.1.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_6_2 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.6.2.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_6_3 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.6.3.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_6_4 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.6.4.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_6_5 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.6.5.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+South_6_6 <- read_excel("~/Sevda/Dec 21 Excel Data/Dec 21 Excel Data/South.6.6.xlsx", 
+                        sheet = "Sheet1", col_names = FALSE)
+
+South_1_1<- data.frame(South_1_1 = c(t(South_1_1)), stringsAsFactors=FALSE)
+South_1_2<- data.frame(South_1_2 = c(t(South_1_2)), stringsAsFactors=FALSE)
+South_1_3<- data.frame(South_1_3 = c(t(South_1_3)), stringsAsFactors=FALSE)
+South_1_4<- data.frame(South_1_4 = c(t(South_1_4)), stringsAsFactors=FALSE)
+South_1_5<- data.frame(South_1_4 = c(t(South_1_5)), stringsAsFactors=FALSE)
+South_1_6<- data.frame(South_1_4 = c(t(South_1_6)), stringsAsFactors=FALSE)
+South_2_1<- data.frame(South_2_1 = c(t(South_2_1)), stringsAsFactors=FALSE)
+South_2_2<- data.frame(South_2_2 = c(t(South_2_2)), stringsAsFactors=FALSE)
+South_2_3<- data.frame(South_2_3 = c(t(South_2_3)), stringsAsFactors=FALSE)
+South_2_4<- data.frame(South_2_4 = c(t(South_2_4)), stringsAsFactors=FALSE)
+South_2_5<- data.frame(South_2_4 = c(t(South_2_5)), stringsAsFactors=FALSE)
+South_2_6<- data.frame(South_2_4 = c(t(South_2_6)), stringsAsFactors=FALSE)
+South_3_1<- data.frame(South_3_1 = c(t(South_3_1)), stringsAsFactors=FALSE)
+South_3_2<- data.frame(South_3_2 = c(t(South_3_2)), stringsAsFactors=FALSE)
+South_3_3<- data.frame(South_3_3 = c(t(South_3_3)), stringsAsFactors=FALSE)
+South_3_4<- data.frame(South_3_4 = c(t(South_3_4)), stringsAsFactors=FALSE)
+South_3_5<- data.frame(South_3_4 = c(t(South_3_5)), stringsAsFactors=FALSE)
+South_3_6<- data.frame(South_3_4 = c(t(South_3_6)), stringsAsFactors=FALSE)
+South_4_1<- data.frame(South_4_1 = c(t(South_4_1)), stringsAsFactors=FALSE)
+South_4_2<- data.frame(South_4_2 = c(t(South_4_2)), stringsAsFactors=FALSE)
+South_4_3<- data.frame(South_4_3 = c(t(South_4_3)), stringsAsFactors=FALSE)
+South_4_4<- data.frame(South_4_4 = c(t(South_4_4)), stringsAsFactors=FALSE)
+South_4_5<- data.frame(South_4_4 = c(t(South_4_5)), stringsAsFactors=FALSE)
+South_4_6<- data.frame(South_4_4 = c(t(South_4_6)), stringsAsFactors=FALSE)
+South_5_1<- data.frame(South_5_1 = c(t(South_5_1)), stringsAsFactors=FALSE)
+South_5_2<- data.frame(South_5_2 = c(t(South_5_2)), stringsAsFactors=FALSE)
+South_5_3<- data.frame(South_5_3 = c(t(South_5_3)), stringsAsFactors=FALSE)
+South_5_4<- data.frame(South_5_4 = c(t(South_5_4)), stringsAsFactors=FALSE)
+South_5_5<- data.frame(South_5_4 = c(t(South_5_5)), stringsAsFactors=FALSE)
+South_5_6<- data.frame(South_5_4 = c(t(South_5_6)), stringsAsFactors=FALSE)
+South_6_1<- data.frame(South_6_1 = c(t(South_6_1)), stringsAsFactors=FALSE)
+South_6_2<- data.frame(South_6_2 = c(t(South_6_2)), stringsAsFactors=FALSE)
+South_6_3<- data.frame(South_6_3 = c(t(South_6_3)), stringsAsFactors=FALSE)
+South_6_4<- data.frame(South_6_4 = c(t(South_6_4)), stringsAsFactors=FALSE)
+South_6_5<- data.frame(South_6_4 = c(t(South_6_5)), stringsAsFactors=FALSE)
+South_6_6<- data.frame(South_6_4 = c(t(South_6_6)), stringsAsFactors=FALSE)
+
+
+dS<-cbind(South_1_1,South_1_2, South_1_3, South_1_4, South_1_5,South_1_6,
+          South_2_1,South_2_2,South_2_3,South_2_4,South_2_5,South_2_6,
+          South_3_1,South_3_2,South_3_3,South_3_4,South_3_5,South_3_6,
+          South_4_1,South_4_2,South_4_3,South_4_4,South_4_5,South_4_6,
+          South_5_1, South_5_2,South_5_3,South_5_4,South_5_5,South_5_6,
+          South_6_1, South_6_2,South_6_3,South_6_4,South_6_5,South_6_6)
+
+NS<- boxplot(dS, outline = FALSE, main="South side, Dec 21", xlab="Location", ylab="Temperature (C)")
+
+########column ###########
+South_1_1$floor <- 1
+South_1_1$window <- 1
+South_1_1$side <- 'South'
+South_1_1$day <- 'Dec 21'
+names(South_1_1)[1] <-'Value' 
+
+South_1_2$floor <- 1
+South_1_2$window <- 2
+South_1_2$side <- 'South'
+South_1_2$day <- 'Dec 21'
+names(South_1_2)[1] <-'Value' 
+
+South_1_3$floor <- 1
+South_1_3$window <- 3
+South_1_3$side <- 'South'
+South_1_3$day <- 'Dec 21'
+names(South_1_3)[1] <-'Value' 
+
+South_1_4$floor <- 1
+South_1_4$window <- 4
+South_1_4$side <- 'South'
+South_1_4$day <- 'Dec 21'
+names(South_1_4)[1] <-'Value' 
+
+South_1_5$floor <- 1
+South_1_5$window <- 5
+South_1_5$side <- 'South'
+South_1_5$day <- 'Dec 21'
+names(South_1_5)[1] <-'Value' 
+
+South_1_6$floor <- 1
+South_1_6$window <- 6
+South_1_6$side <- 'South'
+South_1_6$day <- 'Dec 21'
+names(South_1_6)[1] <-'Value' 
+
+South_2_1$floor <- 2
+South_2_1$window <- 1
+South_2_1$side <- 'South'
+South_2_1$day <- 'Dec 21'
+names(South_2_1)[1] <-'Value' 
+
+South_2_2$floor <- 2
+South_2_2$window <- 2
+South_2_2$side <- 'South'
+South_2_2$day <- 'Dec 21'
+names(South_2_2)[1] <-'Value' 
+
+South_2_3$floor <- 2
+South_2_3$window <- 3
+South_2_3$side <- 'South'
+South_2_3$day <- 'Dec 21'
+names(South_2_3)[1] <-'Value' 
+
+South_2_4$floor <- 2
+South_2_4$window <- 4
+South_2_4$side <- 'South'
+South_2_4$day <- 'Dec 21'
+names(South_2_4)[1] <-'Value' 
+
+South_2_5$floor <- 2
+South_2_5$window <- 5
+South_2_5$side <- 'South'
+South_2_5$day <- 'Dec 21'
+names(South_2_5)[1] <-'Value' 
+
+South_2_6$floor <- 2
+South_2_6$window <- 6
+South_2_6$side <- 'South'
+South_2_6$day <- 'Dec 21'
+names(South_2_6)[1] <-'Value' 
+
+South_3_1$floor <- 3
+South_3_1$window <- 1
+South_3_1$side <- 'South'
+South_3_1$day <- 'Dec 21'
+names(South_3_1)[1] <-'Value' 
+
+South_3_2$floor <- 3
+South_3_2$window <- 2
+South_3_2$side <- 'South'
+South_3_2$day <- 'Dec 21'
+names(South_3_2)[1] <-'Value' 
+
+South_3_3$floor <- 3
+South_3_3$window <- 3
+South_3_3$side <- 'South'
+South_3_3$day <- 'Dec 21'
+names(South_3_3)[1] <-'Value' 
+
+South_3_4$floor <- 3
+South_3_4$window <- 4
+South_3_4$side <- 'South'
+South_3_4$day <- 'Dec 21'
+names(South_3_4)[1] <-'Value' 
+
+South_3_5$floor <- 3
+South_3_5$window <- 5
+South_3_5$side <- 'South'
+South_3_5$day <- 'Dec 21'
+names(South_3_5)[1] <-'Value' 
+
+South_3_6$floor <- 3
+South_3_6$window <- 6
+South_3_6$side <- 'South'
+South_3_6$day <- 'Dec 21'
+names(South_3_6)[1] <-'Value' 
+
+
+South_4_1$floor <- 4
+South_4_1$window <- 1
+South_4_1$side <- 'South'
+South_4_1$day <- 'Dec 21'
+names(South_4_1)[1] <-'Value' 
+
+South_4_2$floor <- 4
+South_4_2$window <- 2
+South_4_2$side <- 'South'
+South_4_2$day <- 'Dec 21'
+names(South_4_2)[1] <-'Value' 
+
+South_4_3$floor <- 4
+South_4_3$window <- 3
+South_4_3$side <- 'South'
+South_4_3$day <- 'Dec 21'
+names(South_4_3)[1] <-'Value' 
+
+South_4_4$floor <- 4
+South_4_4$window <- 4
+South_4_4$side <- 'South'
+South_4_4$day <- 'Dec 21'
+names(South_4_4)[1] <-'Value' 
+
+South_4_5$floor <- 4
+South_4_5$window <- 5
+South_4_5$side <- 'South'
+South_4_5$day <- 'Dec 21'
+names(South_4_5)[1] <-'Value'
+
+South_4_6$floor <- 4
+South_4_6$window <- 6
+South_4_6$side <- 'South'
+South_4_6$day <- 'Dec 21'
+names(South_4_6)[1] <-'Value'
+
+South_5_1$floor <- 5
+South_5_1$window <- 1
+South_5_1$side <- 'South'
+South_5_1$day <- 'Dec 21'
+names(South_5_1)[1] <-'Value' 
+
+South_5_2$floor <- 5
+South_5_2$window <- 2
+South_5_2$side <- 'South'
+South_5_2$day <- 'Dec 21'
+names(South_5_2)[1] <-'Value' 
+
+South_5_3$floor <- 5
+South_5_3$window <- 3
+South_5_3$side <- 'South'
+South_5_3$day <- 'Dec 21'
+names(South_5_3)[1] <-'Value' 
+
+South_5_4$floor <- 5
+South_5_4$window <- 4
+South_5_4$side <- 'South'
+South_5_4$day <- 'Dec 21'
+names(South_5_4)[1] <-'Value' 
+
+South_5_5$floor <- 5
+South_5_5$window <- 5
+South_5_5$side <- 'South'
+South_5_5$day <- 'Dec 21'
+names(South_5_5)[1] <-'Value' 
+
+South_5_6$floor <- 4
+South_5_6$window <- 6
+South_5_6$side <- 'South'
+South_5_6$day <- 'Dec 21'
+names(South_5_6)[1] <-'Value'
+
+dfS1<- rbind.data.frame(South_1_1,South_1_2,South_1_3, South_1_4,South_1_5, South_1_6)
+dfS2<- rbind.data.frame(South_2_1,South_2_2,South_2_3, South_2_4,South_2_5, South_2_6)
+dfS3<- rbind.data.frame(South_3_1,South_3_2,South_3_3, South_3_4,South_3_5, South_3_6)
+dfS4<- rbind.data.frame(South_4_1,South_4_2,South_4_3, South_4_4,South_4_5, South_4_6)
+dfS5<- rbind.data.frame(South_5_1,South_5_2,South_5_3, South_5_4,South_5_5, South_5_6)
+dfS_all <- rbind.data.frame(dfS1, dfS2, dfS3, dfS4, dfS5)
+
+ggplot()+ geom_boxplot(data=dfN_all, aes(window, Value, group=window))+ facet_grid(~floor)+
+  ylab("Temperature (C)")+ggtitle("South side Floor")
+
+
+########### Plots ###########
+df_all_Dec21 <- rbind.data.frame(dfE_all, dfN_all, dfS_all, dfW_all)
+ggplot()+geom_boxplot(data=df_all_Dec21, aes(window, Value, group=window))+ facet_grid(side~floor)+
+  ylab("Temperature (C)")+ ggtitle("            December 21")
+
+
